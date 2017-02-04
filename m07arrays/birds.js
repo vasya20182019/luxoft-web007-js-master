@@ -6,23 +6,25 @@ var birdPrices = [];
 var birdAvailable = [];
 var birdSold = [];
 
-fillBirdsAtFirstTime();
-addBirds("eagle", 5);
-sellBirds("eagle", 3);
-soldAmount();
-removeType("duck");
-addNewType("duck", 2, 100)
-addBirds("duck", 5);
-getPrice("duck");
-changePrice("duck", 55);
-getPrice("duck");
-amountOfMoney();
+
 
 // 4. fill birds at first time
 function fillBirdsAtFirstTime() {
     addNewType("eagle", 5, 1);
     addNewType("duck", 2, 15)
-}
+};
+
+// 2. add one more bird
+function addBirds(typeName, amount) {
+    var index = birdTypeNames.indexOf(typeName);
+    if (index !== -1) {
+        console.log(typeName + " before: " + birdAvailable[index]);
+        birdAvailable[index] += amount;
+        console.log(typeName + " after: " + birdAvailable[index]);
+        return;
+    }
+    throw new Error("typeName=" + typeName + " does not exist!");
+};
 
 // 3. add new type of bird
 function addNewType(typeName, price, available) {
@@ -57,20 +59,10 @@ function changePrice(typeName, price) {
         birdPrices[index] = price;
         return;
     }
-    throw new Error("typeName=" + typeName + " does not already exist!");
-}
-
-// 2. add one more bird
-function addBirds(typeName, amount) {
-    var index = birdTypeNames.indexOf(typeName);
-    if (index !== -1) {
-        console.log(typeName + " before: " + birdAvailable[index]);
-        birdAvailable[index] += amount;
-        console.log(typeName + " after: " + birdAvailable[index]);
-        return;
-    }
     throw new Error("typeName=" + typeName + " does not exist!");
 }
+
+
 
 // 12. Продать определенное количество птиц одного вида
 function sellBirds(typeName, amount) {
@@ -104,7 +96,7 @@ function soldAmount() {
 function getPrice(typeName) {
     var index = birdTypeNames.indexOf(typeName);
     if (index !== -1) {
-        console.log(typeName + "is cost " + birdPrices[index] + " $");
+        console.log(typeName + " is cost " + birdPrices[index] + " $");
         return;
     }
     throw new Error("typeName=" + typeName + " does not already exist!");
@@ -119,14 +111,95 @@ function amountOfMoney() {
     console.log("Amount of money " + sum + " $");
 }
 
+// 7. Define the cheapest type of bird
+function defineTheCheapest() {
+    var cheapest = Math.min.apply(null, birdPrices);
+    console.log("cheapest = " + cheapest);
+}
+
+// 7. Define the most expensive type of bird
+function defineTheMostExpensive() {
+    var maxPrice = Math.max.apply(null, birdPrices);
+    var index = birdPrices.indexOf(maxPrice);
+    console.log("The most expensive is " + birdTypeNames[index] + " with price " + maxPrice);
+}
+
+// 6. Define the most sellable type of bird
+function defineTheMostSellable() {
+    var maxCount = Math.max.apply(null, birdSold);
+    var index = birdSold.indexOf(maxCount);
+    console.log("The most sellable is " + birdTypeNames[index] + " with count of " + maxCount);
+}
+
+// 6. Define the least sellable type of bird
+function defineTheLeastSellable() {
+    var maxCount = Math.min.apply(null, birdSold);
+    var index = birdSold.indexOf(maxCount);
+    console.log("The least sellable is " + birdTypeNames[index] + " with count of " + maxCount);
+}
+
+// 8. Define the most profitable kind of bird
+function defineTheMostProfitable() {
+    var arr = [];
+    for (var i = 0; i < birdSold.length; i++) {
+        arr[i] = birdSold[i] * birdPrices[i];
+    }
+    var max = Math.max.apply(null, arr);
+    var index = arr.indexOf(max);
+    console.log("The most profitable is " + birdTypeNames[index] + " with amount of " + max);
+}
+
+// 8. Define the least profitable kind of bird
+function defineTheLeastProfitable() {
+    var arr = [];
+    for (var i = 0; i < birdSold.length; i++) {
+        arr[i] = birdSold[i] * birdPrices[i];
+    }
+    var min = Math.min.apply(null, arr);
+    var index = arr.indexOf(min);
+    console.log("The least profitable is " + birdTypeNames[index] + " with amount of " + min);
+}
 
 // Print state
-// 6. Define the most sellable type of bird
-// 6. Define the least sellable type of bird
-// 7. Define the most expensive type of bird
-// 7. Define the cheapest type of bird
-// 8. Define the most profitable kind of bird
-// 8. Define the least profitable kind of bird
+function printState() {
+    console.log("Type\t\tPrice\t\tNumber\t\tSold");
+    for (var i in birdTypeNames) {
+        console.log(
+            birdTypeNames[i] + "\t\t\t" +
+            birdPrices[i] + "$\t\t\t" +
+            birdAvailable[i] + "\t\t\t" +
+            birdSold[i]);
+    }
+}
+
+fillBirdsAtFirstTime();
+addBirds("eagle", 5);
+sellBirds("eagle", 3);
+soldAmount();
+removeType("duck");
+addNewType("duck", 2, 100);
+addNewType("hen", 30, 20);
+addBirds("duck", 5);
+getPrice("duck");
+changePrice("duck", 55);
+getPrice("duck");
+amountOfMoney();
+sellBirds("duck", 4);
+defineTheCheapest();
+defineTheMostExpensive();
+defineTheMostSellable();
+defineTheLeastSellable();
+defineTheMostProfitable();
+defineTheLeastProfitable();
+printState();
+
+
+
+
+
+
+
+
 
 
 
